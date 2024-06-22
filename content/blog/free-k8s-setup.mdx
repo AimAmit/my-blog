@@ -41,8 +41,7 @@ MetalLB assigns the machine's public IP for load balancing across services. Ensu
 
 Set up Nginx Ingress to manage traffic from wildcard subdomains routed through Cloudflare for CDN and SSL termination. Each application is deployed on its subdomain, such as `https://typeahead-rs.0xamit.com/`.
 
-```yaml {9} showLineNumbers
-# Example snippet from Helm values.yaml for `typeahead-rs` application
+```yaml  showLineNumbers {9} caption="Example snippet from Helm values.yaml for typeahead-rs application"
 ingress:
   enabled: true
   className: "nginx"
