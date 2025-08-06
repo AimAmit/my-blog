@@ -1,0 +1,108 @@
+---
+title: Terminal-First Workflow with Tmux, uv, and Neovim
+description: A fast, minimal, and repeatable development setup built around the terminal—using tmux, Neovim, and Python + uv—to power my GenAI workflow.
+date: 2025-08-06
+tags: ["tmux", "nvim", "python", "uv", "gen-ai", "terminal"]
+published: true
+---
+
+In this post, I’m documenting my current development workflow—one that I’ve shaped over time to stay fast, focused, and distraction-free. It’s a terminal-first setup centered around `tmux`, `Neovim`, and `uv`, optimized specifically for fast prototyping and iterating on GenAI applications in Python.
+
+While IDEs are getting heavier and more AI-assisted every year, I’ve stuck to a lightweight stack that’s entirely keyboard-driven, reproducible, and persistent across sessions.
+
+---
+
+<div className="flex justify-center items-center my-8">
+  <Image
+    src="../../public/tmux-nvim-py.png"
+    alt="Terminal workflow with Tmux, Neovim and Python"
+    width="700"
+    height="400"
+  />
+</div>
+
+---
+
+## 🔧 Tools I Rely On
+
+Here’s a breakdown of the tools and plugins that make up my daily environment:
+
+- **[tmux](https://github.com/tmux/tmux)** – Terminal multiplexer for splitting windows, managing panes, and quickly switching between projects.
+- **[tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)** – Saves and restores tmux sessions, windows, and panes after a restart.
+- **[tpm (Tmux Plugin Manager)](https://github.com/tmux-plugins/tpm)** – Manages my tmux plugins with a simple `prefix + I` keybind to install.
+- **[vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)** – Allows seamless navigation between tmux panes and Neovim splits using `<C-h/j/k/l>`.
+- **[uv](https://docs.astral.sh/uv/)** – A super-fast Python package manager and runtime built in Rust. It replaces `pip + venv` and drastically reduces Python project startup time.
+- **[IPython](https://ipython.org/)** – For fast prototyping and testing, IPython inside a uv shell is my go-to REPL.
+- **[Neovim](https://neovim.io/)** via [LazyVim](https://lazyvim.org) – My IDE setup is based on LazyVim, providing a modern, minimal Neovim config with lazy-loaded plugins and tight performance.
+
+---
+
+## 🧠 Why This Setup?
+
+I work primarily with Python in GenAI and LLM-related projects, where iteration speed and reproducibility matter. This setup gives me:
+
+- Instant context switching across panes and projects  
+- Persistent development sessions I can resume anytime  
+- Blazingly fast Python environment creation and package installs  
+- Snappy, customized editing experience in Neovim  
+- Seamless navigation between editor and shell  
+
+All of this, without leaving the terminal.
+
+---
+
+## 🛠️ How It All Comes Together
+
+Here’s how I usually structure my workspace:
+
+1. Start a new tmux session for each project:
+   ```bash
+   tmux new-session -s my-genai-project
+   ```
+2.	Create tmux windows for:
+-	nvim – for coding
+-	uv venv && ipython – for REPL-based prototyping
+-	Logs / server output / pytest runs
+3.	Use tmux-resurrect to save the session:
+  ```bash
+  # Save session
+  prefix + Ctrl-s
+
+  # Restore session later
+  prefix + Ctrl-r
+  ```
+4.	To move between Neovim and shell panes:
+  ```bash
+  # Ctrl-h/j/k/l will move across tmux and Neovim splits
+  ```
+5. Run python in uv
+  ```bash
+  uv init --no-workspace .
+  uv add openai transformers
+  uv run ipython
+  ```
+6.	My entire setup is version-controlled in my dotfiles repo, making it portable and repeatable across systems.
+
+### 📦 Example: Setting Up a New Project
+```bash
+# Create a new directory and init Python env
+mkdir langchain-memory-rag
+cd langchain-memory-rag
+uv init --no-workspace .
+uv add llama-index langchain openai
+
+# Launch REPL
+uv run ipython
+```
+
+Launch your tmux + Neovim session from here and you’re set.
+
+## 🔗 References
+- [Tmux](https://github.com/tmux/tmux)
+- [Tmux Plugin Manager (tpm)](https://github.com/tmux-plugins/tpm)
+- [Tmux Resurrect](https://github.com/tmux-plugins/tmux-resurrect)
+- [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator)
+- [uv (Python)](https://docs.astral.sh/uv/)
+- [Neovim](https://neovim.io/)
+- [LazyVim](https://www.lazyvim.org/)
+- [IPython](https://ipython.org/)
